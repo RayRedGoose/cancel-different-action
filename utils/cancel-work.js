@@ -49,7 +49,10 @@ async function main() {
       "ALL RUNS:",
       allRuns.map(({ name, status }) => ({ name, status }))
     );
-    const runsToClean = allRuns.filter((run) => run.name === "Cancelled");
+    const runsToClean = allRuns.filter(
+      ({ name, status }) =>
+        name === "Cancelled" && ["in_progress", "queued"].includes(status)
+    );
     console.log("RUNS TO BE CANCELLED:", runsToClean);
 
     if (runsToClean.length) {
