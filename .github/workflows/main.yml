@@ -18,9 +18,7 @@ jobs:
           ref: prerelease/minor # This job only works on prerelease/minor
 
       - name: Cancel release action
-        uses: styfle/cancel-workflow-action@0.9.1
-        with:
-          workflow_id: release.yml
+        run: node utils/cancel-work.js
 
       - name: Success Message
         run: echo "Release successful. Check out https://github.com/Workday/canvas-kit/actions/workflows/release.yml to see the release job start."
