@@ -20,7 +20,9 @@ async function main() {
     repo: { owner, repo },
     payload,
   } = github.context;
-  const { GITHUB_RUN_ID } = process.env;
+  const { GITHUB_RUN_ID, GITHUB_TOKEN } = process.env;
+
+  console.log("GITHUB_TOKEN", GITHUB_TOKEN);
 
   // let branch = ref.slice(11);
   // let headSha = sha;
@@ -33,6 +35,7 @@ async function main() {
   // }
 
   const token = core.getInput("access_token");
+  console.log("token", token);
   // const workflow_id = core.getInput("workflow_id", { required: false });
   // const ignore_sha = core.getBooleanInput("ignore_sha", { required: false });
   // const all_but_latest = core.getBooleanInput("all_but_latest", {
