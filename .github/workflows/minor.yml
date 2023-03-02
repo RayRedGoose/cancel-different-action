@@ -14,8 +14,8 @@ jobs:
           fetch-depth: 0 # Needed to do a proper push
           ref: prerelease/minor # This job only works on prerelease/minor
 
-      - name: Push to master
-        uses: ad-m/github-push-action@master
+      - name: Push to main
+        uses: ad-m/github-push-action@main
         with:
           github_token: ${{ secrets.GH_RW_TOKEN }}
           branch: refs/heads/main
