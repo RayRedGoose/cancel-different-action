@@ -31,18 +31,26 @@ async function main() {
     }
   );
 
+  await octokit.request(
+    "GET /repos/{owner}/{repo}/actions/runs?status=in_progress",
+    { owner, repo }
+  );
+
   console.log("CANCEL ACTION:");
   const {
     data: { workflow_runs: allRuns },
   } = await octokit.request(
-    "GET /repos/{owner}/{repo}/actions/runs?state=in-progress",
+    "GET /repos/{owner}/{repo}/actions/runs?status=in_progress",
     {
       owner,
       repo,
     }
   );
 
-  console.log("ALL RUNS:", allRuns);
+  console.log(
+    "ALL RUNS:",
+    allRuns.map(({ name, status }) => ({ name, status }))
+  );
   const runsToClean = allRuns.filter((run) => run.name === "Cancelled");
   console.log("RUNS TO BE CANCELLED:", runsToClean);
 
