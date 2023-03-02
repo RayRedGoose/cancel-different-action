@@ -21,8 +21,8 @@ async function main() {
   console.log("github", github.context.repo);
   console.log("process.env", process.env);
 
-  const token = core.getInput("access_token");
-  console.log("token", GITHUB_TOKEN);
+  const token = core.get;
+  console.log(core);
 
   const octokit = github.getOctokit(token);
 
