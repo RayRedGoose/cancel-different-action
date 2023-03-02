@@ -1,5 +1,4 @@
-import * as core from "@actions/core";
-import * as github from "@actions/github";
+import { Octokit } from "https://cdn.skypack.dev/octokit";
 
 if (!github) {
   throw new Error("Module not found: github");
@@ -10,15 +9,7 @@ if (!core) {
 }
 
 async function main() {
-  const {
-    eventName,
-    sha,
-    ref,
-    repo: { owner, repo },
-  } = github.context;
-
   const { GITHUB_TOKEN } = process.env;
-  console.log("github", github.context.repo);
   console.log("process.env", process.env);
 
   const token = core.getInput("access_token");
