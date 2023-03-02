@@ -18,23 +18,8 @@ async function main() {
     sha,
     ref,
     repo: { owner, repo },
-    payload,
+    token,
   } = github.context;
-  const { GITHUB_RUN_ID, GITHUB_TOKEN } = process.env;
-
-  console.log("GITHUB_TOKEN", GITHUB_TOKEN);
-
-  // let branch = ref.slice(11);
-  // let headSha = sha;
-  // if (payload.pull_request) {
-  //   branch = payload.pull_request.head.ref;
-  //   headSha = payload.pull_request.head.sha;
-  // } else if (payload.workflow_run) {
-  //   branch = payload.workflow_run.head_branch;
-  //   headSha = payload.workflow_run.head_sha;
-  // }
-
-  const token = core.getInput("access_token");
   console.log("token", token);
   // const workflow_id = core.getInput("workflow_id", { required: false });
   // const ignore_sha = core.getBooleanInput("ignore_sha", { required: false });
