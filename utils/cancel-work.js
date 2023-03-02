@@ -56,9 +56,9 @@ async function main() {
     console.log("RUNS TO BE CANCELLED:", runsToClean);
 
     if (runsToClean.length) {
-      console.log("cancelling....");
-      await octokit.rest.actions.cancelWorkflowRun(
-        "GET /repos/{owner}/{repo}/actions/runs",
+      console.log(`cancelling run with id ${runsToClean[0].id}....`);
+      await octokit.request(
+        "POST /repos/{owner}/{repo}/actions/runs/{run_id}/cancel",
         {
           owner,
           repo,
