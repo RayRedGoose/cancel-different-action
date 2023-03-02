@@ -18,10 +18,23 @@ async function main() {
   } = github.context;
 
   const { GITHUB_TOKEN } = process.env;
-  console.log("github", GITHUB_TOKEN);
-
   const octokit = github.getOctokit(GITHUB_TOKEN);
 
+  console.log("RUN CANCELLED ACTION:");
+  await octokit.request(
+    "POST /repos/{owner}/{repo}/actions/workflows/{workflow_id}/dispatches",
+    {
+      owner,
+      repo,
+      workflow_id: "cancelled.yml",
+      ref: "topic-branch",
+      inputs: {
+        version: "minor",
+      },
+    }
+  );
+
+  console.log("CANCEL ACTION:");
   const {
     data: { workflow_runs: allRuns },
   } = await octokit.request("GET /repos/{owner}/{repo}/actions/runs", {
@@ -30,10 +43,25 @@ async function main() {
   });
 
   const runsToCancel = allRuns.filter(
-    ({ name, status }) => name === "Cancelled"
+    ({ name, status }) =>
+      name === "Cancelled" &&
+      ["queued", "waiting", "in-progress", "pending"].includes(status)
   );
 
   console.log(runsToCancel);
+
+  Promise.all(
+    runsToCancel.map((run) => {
+      return octokit.rest.actions.cancelWorkflowRun(
+        "GET /repos/{owner}/{repo}/actions/runs",
+        {
+          owner,
+          repo,
+          run_id: run.id,
+        }
+      );
+    })
+  );
 }
 
 main()
