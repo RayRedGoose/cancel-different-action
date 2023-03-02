@@ -1,9 +1,9 @@
 name: "Main Action"
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - test-workflow
+  # push:
+  #   branches:
+  #     - test-workflow
 
 jobs:
   release-minor:
