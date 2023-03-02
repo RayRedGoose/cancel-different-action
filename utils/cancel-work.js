@@ -1,6 +1,3 @@
-// const core = require("@actions/core");
-// const github = require("@actions/github");
-
 import * as core from "@actions/core";
 import * as github from "@actions/github";
 
@@ -21,106 +18,22 @@ async function main() {
   } = github.context;
 
   const { GITHUB_TOKEN } = process.env;
-  console.log("github", github.context);
+  console.log("github", github.context.repo);
   console.log("process.env", process.env);
 
   const token = core.getInput("access_token");
   console.log("token", GITHUB_TOKEN);
 
-  // const workflow_id = core.getInput("workflow_id", { required: false });
-  // const ignore_sha = core.getBooleanInput("ignore_sha", { required: false });
-  // const all_but_latest = core.getBooleanInput("all_but_latest", {
-  //   required: false,
-  // });
-  // console.log(`Found token: ${token ? "yes" : "no"}`);
-  // const workflow_ids = [];
-  const octokit = github.getOctokit(GITHUB_TOKEN);
+  const octokit = new Octokit({
+    auth: GITHUB_TOKEN,
+  });
 
-  const { data } = await octokit.rest.actions.getWorkflowRun({
+  const data = await octokit.request("GET /repos/{owner}/{repo}/actions/runs", {
     owner,
     repo,
   });
 
-  console.log("data:", data);
-
-  // const { data: current_run } = await octokit.rest.actions.getWorkflowRun({
-  //   owner,
-  //   repo,
-  //   run_id: Number(GITHUB_RUN_ID),
-  // });
-
-  // if (workflow_id) {
-  //   // When workflow_id is 'all', cancel all workflows
-  //   if (workflow_id === "all") {
-  //     const {
-  //       data: { workflows: allWorkflows },
-  //     } = await octokit.rest.actions.listRepoWorkflows({ owner, repo });
-  //     allWorkflows.forEach((w) => workflow_ids.push(String(w.id)));
-  //   } else {
-  //     // The user provided one or more workflow id
-  //     workflow_id
-  //       .replace(/\s/g, "")
-  //       .split(",")
-  //       .forEach((n) => workflow_ids.push(n));
-  //   }
-  // } else {
-  //   // The user did not provide workflow id so derive from current run
-  //   workflow_ids.push(String(current_run.workflow_id));
-  // }
-  // console.log(`Found workflow_id: ${JSON.stringify(workflow_ids)}`);
-  // const trigger_repo_id = (payload.workflow_run || current_run).head_repository
-  //   .id;
-  // await Promise.all(
-  //   workflow_ids.map(async (workflow_id) => {
-  //     try {
-  //       const {
-  //         data: { total_count, workflow_runs },
-  //       } = await octokit.rest.actions.listWorkflowRuns({
-  //         per_page: 100,
-  //         owner,
-  //         repo,
-  //         // @ts-ignore
-  //         workflow_id,
-  //         branch,
-  //       });
-  //       console.log(`Found ${total_count} runs total.`);
-  //       let cancelBefore = new Date(current_run.created_at);
-  //       if (all_but_latest) {
-  //         const n = workflow_runs
-  //           .map((run) => new Date(run.created_at).getTime())
-  //           .reduce((a, b) => Math.max(a, b), cancelBefore.getTime());
-  //         cancelBefore = new Date(n);
-  //       }
-  //       const runningWorkflows = workflow_runs.filter(
-  //         (run) =>
-  //           run.head_repository.id === trigger_repo_id &&
-  //           run.id !== current_run.id &&
-  //           (ignore_sha || run.head_sha !== headSha) &&
-  //           run.status !== "completed" &&
-  //           new Date(run.created_at) < cancelBefore
-  //       );
-  //       if (all_but_latest && new Date(current_run.created_at) < cancelBefore) {
-  //         // Make sure we cancel this run itself if it's out-of-date.
-  //         // We must cancel this run last so we can cancel the others first.
-  //         runningWorkflows.push(current_run);
-  //       }
-  //       console.log(`Found ${runningWorkflows.length} runs to cancel.`);
-  //       for (const { id, head_sha, status, html_url } of runningWorkflows) {
-  //         console.log("Canceling run: ", { id, head_sha, status, html_url });
-  //         const res = await octokit.rest.actions.cancelWorkflowRun({
-  //           owner,
-  //           repo,
-  //           run_id: id,
-  //         });
-  //         console.log(`Cancel run ${id} responded with status ${res.status}`);
-  //       }
-  //     } catch (e) {
-  //       const msg = e.message || e;
-  //       console.log(`Error while canceling workflow_id ${workflow_id}: ${msg}`);
-  //     }
-  //     console.log("");
-  //   })
-  // );
+  console.log(data);
 }
 
 main()
