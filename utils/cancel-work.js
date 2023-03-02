@@ -40,6 +40,13 @@ async function main() {
   const workflow_ids = [];
   const octokit = github.getOctokit(token);
 
+  const { data } = await octokit.rest.actions.getWorkflowRun({
+    owner,
+    repo,
+  });
+
+  console.log("data:", data);
+
   const { data: current_run } = await octokit.rest.actions.getWorkflowRun({
     owner,
     repo,
