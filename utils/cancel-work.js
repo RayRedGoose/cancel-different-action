@@ -40,13 +40,10 @@ async function main() {
     console.log("CANCEL ACTION:");
     const {
       data: { workflow_runs: allRuns },
-    } = await octokit.request(
-      "GET /repos/{owner}/{repo}/actions/runs?status=in_progress",
-      {
-        owner,
-        repo,
-      }
-    );
+    } = await octokit.request("GET /repos/{owner}/{repo}/actions/runs", {
+      owner,
+      repo,
+    });
 
     console.log(
       "ALL RUNS:",
