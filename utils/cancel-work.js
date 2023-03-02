@@ -18,13 +18,9 @@ async function main() {
   } = github.context;
 
   const { GITHUB_TOKEN } = process.env;
-  console.log("github", github.context.repo);
-  console.log("process.env", process.env);
+  console.log("github", GITHUB_TOKEN);
 
-  const token = core.get;
-  console.log(core);
-
-  const octokit = github.getOctokit(token);
+  const octokit = github.getOctokit(GITHUB_TOKEN);
 
   const data = await octokit.request("GET /repos/{owner}/{repo}/actions/runs", {
     owner,
