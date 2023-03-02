@@ -24,7 +24,7 @@ async function main() {
       owner,
       repo,
       workflow_id: "cancelled.yml",
-      ref: "test-branch",
+      ref: "test",
       inputs: {
         version: "minor",
       },
