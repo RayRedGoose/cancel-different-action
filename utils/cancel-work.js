@@ -36,39 +36,41 @@ async function main() {
     { owner, repo }
   );
 
-  console.log("CANCEL ACTION:");
-  const {
-    data: { workflow_runs: allRuns },
-  } = await octokit.request("GET /repos/{owner}/{repo}/actions/runs", {
-    owner,
-    repo,
-  });
+  setTimeout(async () => {
+    console.log("CANCEL ACTION:");
+    const {
+      data: { workflow_runs: allRuns },
+    } = await octokit.request("GET /repos/{owner}/{repo}/actions/runs", {
+      owner,
+      repo,
+    });
 
-  console.log(
-    "ALL RUNS:",
-    allRuns.map(({ name, status }) => ({ name, status }))
-  );
-  const runsToClean = allRuns.filter(
-    ({ name, status }) =>
-      name === "Cancelled" && ["in_progress", "queued"].includes(status)
-  );
-  console.log("RUNS TO BE CANCELLED:", runsToClean);
-
-  if (runsToClean.length) {
-    console.log(`cancelling run with id ${runsToClean[0].id}....`);
-    await octokit.request(
-      "POST /repos/{owner}/{repo}/actions/runs/{run_id}/cancel",
-      {
-        owner,
-        repo,
-        run_id: runsToClean[0].id,
-      }
+    console.log(
+      "ALL RUNS:",
+      allRuns.map(({ name, status }) => ({ name, status }))
     );
-    console.log("cancelation is done");
-    return;
-  }
+    const runsToClean = allRuns.filter(
+      ({ name, status }) =>
+        name === "Cancelled" && ["in_progress", "queued"].includes(status)
+    );
+    console.log("RUNS TO BE CANCELLED:", runsToClean);
 
-  console.log("Successfully done without any cancelations");
+    if (runsToClean.length) {
+      console.log(`cancelling run with id ${runsToClean[0].id}....`);
+      await octokit.request(
+        "POST /repos/{owner}/{repo}/actions/runs/{run_id}/cancel",
+        {
+          owner,
+          repo,
+          run_id: runsToClean[0].id,
+        }
+      );
+      console.log("cancelation is done");
+      return;
+    }
+
+    console.log("Successfully done without any cancelations");
+  }, 1000);
 }
 
 const runWorkflow = async (options) => {
