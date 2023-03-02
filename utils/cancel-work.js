@@ -11,9 +11,6 @@ if (!core) {
 
 async function main() {
   const {
-    eventName,
-    sha,
-    ref,
     repo: { owner, repo },
   } = github.context;
 
@@ -27,7 +24,7 @@ async function main() {
       owner,
       repo,
       workflow_id: "cancelled.yml",
-      ref: "topic-branch",
+      ref: "test-branch",
       inputs: {
         version: "minor",
       },
