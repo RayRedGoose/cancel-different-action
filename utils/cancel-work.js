@@ -30,9 +30,7 @@ async function main() {
   });
 
   const runsToCancel = allRuns.filter(
-    ({ name, status }) =>
-      name === "Cancelled" &&
-      ["queued", "waiting", "in-progress", "pending"].includes(status)
+    ({ name, status }) => name === "Cancelled"
   );
 
   console.log(runsToCancel);
