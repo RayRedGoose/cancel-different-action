@@ -22,12 +22,20 @@ async function main() {
 
   const octokit = github.getOctokit(GITHUB_TOKEN);
 
-  const data = await octokit.request("GET /repos/{owner}/{repo}/actions/runs", {
+  const {
+    data: { workflow_runs: allRuns },
+  } = await octokit.request("GET /repos/{owner}/{repo}/actions/runs", {
     owner,
     repo,
   });
 
-  console.log(data);
+  const runsToCancel = allRuns.filter(
+    ({ name, status }) =>
+      name === "Cancelled" &&
+      ["queued", "waiting", "in-progress", "pending"].includes(status)
+  );
+
+  console.log(runsToCancel);
 }
 
 main()

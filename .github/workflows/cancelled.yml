@@ -1,9 +1,10 @@
-name: "Must be cancelled"
+name: "Cancelled"
 
 on:
-  # push:
-  #   branches:
-  #     - test-workflow
+  workflow_run:
+    workflows: [Main]
+    types:
+      - in-progress
   workflow_dispatch: # Allow manual triggering of this job in case of failures
     inputs:
       version:
@@ -53,3 +54,6 @@ jobs:
         with:
           path: .cache/cypress
           key: ${{ runner.os }}-cypress-cache-version-${{ steps.cypress-version.outputs.version }}
+
+      - name: Install packages
+        run: yarn install
