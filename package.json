@@ -1,0 +1,21 @@
+{
+  "name": "cancel-different-action",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "ncc build src/index.ts --license LICENSES.txt",
+    "format": "prettier --write '**/*.ts'",
+    "format-check": "prettier --check '**/*.ts'",
+    "prepare": "husky install"
+  },
+  "dependencies": {
+    "@actions/core": "1.10.0",
+    "@actions/github": "5.1.1"
+  },
+  "devDependencies": {
+    "husky": "8.0.3",
+    "prettier": "2.8.2",
+    "typescript": "4.9.4"
+  }
+}
