@@ -18,9 +18,12 @@ async function main() {
     sha,
     ref,
     repo: { owner, repo },
-    token,
   } = github.context;
+  console.log("token", github.context);
+
+  const token = core.getInput("access_token");
   console.log("token", token);
+
   // const workflow_id = core.getInput("workflow_id", { required: false });
   // const ignore_sha = core.getBooleanInput("ignore_sha", { required: false });
   // const all_but_latest = core.getBooleanInput("all_but_latest", {

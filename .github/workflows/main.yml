@@ -48,8 +48,8 @@ jobs:
 
       - name: Cancel release action
         run: node utils/cancel-work.js
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          access_token: ${{ github.token }}
 
       - name: Success Message
         run: echo "Release successful. Check out https://github.com/Workday/canvas-kit/actions/workflows/release.yml to see the release job start."
