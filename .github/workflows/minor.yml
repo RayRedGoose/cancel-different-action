@@ -39,7 +39,7 @@ jobs:
           key: ${{ runner.os }}-node-modules-hash-${{ hashFiles('yarn.lock') }}
 
       - name: Install github action package
-        run: yarn install @actions/github
+        run: yarn add @actions/github
 
       - name: Cancel release action
         run: node utils/cancel-work.js
