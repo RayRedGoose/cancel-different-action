@@ -18,7 +18,7 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GH_RW_TOKEN }}
-          branch: refs/heads/master
+          branch: refs/heads/main
 
       ## This step installs node and sets up several matchers (regex matching for Github
       ## Annotations). See
