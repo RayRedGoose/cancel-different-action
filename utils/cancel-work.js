@@ -25,7 +25,7 @@ async function main() {
   console.log("process.env", process.env);
 
   const token = core.getInput("access_token");
-  console.log("token", token);
+  console.log("token", GITHUB_TOKEN);
 
   // const workflow_id = core.getInput("workflow_id", { required: false });
   // const ignore_sha = core.getBooleanInput("ignore_sha", { required: false });
@@ -34,7 +34,7 @@ async function main() {
   // });
   // console.log(`Found token: ${token ? "yes" : "no"}`);
   // const workflow_ids = [];
-  const octokit = github.getOctokit(token);
+  const octokit = github.getOctokit(GITHUB_TOKEN);
 
   const { data } = await octokit.rest.actions.getWorkflowRun({
     owner,
