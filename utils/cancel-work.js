@@ -19,7 +19,10 @@ async function main() {
     ref,
     repo: { owner, repo },
   } = github.context;
-  console.log("token", github.context);
+
+  const { GITHUB_TOKEN } = process.env;
+  console.log("github", github.context);
+  console.log("process.env", process.env);
 
   const token = core.getInput("access_token");
   console.log("token", token);
