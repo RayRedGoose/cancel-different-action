@@ -57,3 +57,6 @@ jobs:
       - name: Check version
         if: "inputs.version"
         run: echo "Released ${{inputs.version}} version"
+
+      - name: Create react app
+        run: npx create-react-app my-app
