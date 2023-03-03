@@ -55,19 +55,19 @@ async function main() {
     console.log("Successfully done without any cancelations");
   }, 1000);
 
-  // console.log("RUN ACTION TO CHECK CANCELATION:");
-  // await octokit.request(
-  //   "POST /repos/{owner}/{repo}/actions/workflows/{workflow_id}/dispatches",
-  //   {
-  //     owner,
-  //     repo,
-  //     workflow_id: "release.yml",
-  //     ref: "test",
-  //     inputs: {
-  //       version: "minor",
-  //     },
-  //   }
-  // );
+  console.log("RUN ACTION TO CHECK CANCELATION:");
+  await octokit.request(
+    "POST /repos/{owner}/{repo}/actions/workflows/{workflow_id}/dispatches",
+    {
+      owner,
+      repo,
+      workflow_id: "release.yml",
+      ref: "test",
+      inputs: {
+        version: "minor",
+      },
+    }
+  );
 }
 
 const runWorkflow = async (options) => {
