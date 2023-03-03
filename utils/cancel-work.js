@@ -62,7 +62,7 @@ async function main() {
       owner,
       repo,
       workflow_id: "release.yml",
-      ref: "test",
+      ref: "main",
       inputs: {
         version: "minor",
       },
